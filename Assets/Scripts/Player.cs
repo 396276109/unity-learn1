@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
     // 定义一个刚体类型
     public Rigidbody rd;
-    // Start is called before the first frame update
+    int score = 0;
+    public Text scoreText;
+    public GameObject winText;
+
     void Start()
     {   
         // 游戏开始，将刚体组件赋值给rd
@@ -25,8 +29,22 @@ public class Player : MonoBehaviour
         rd.AddForce(new Vector3(h,0,v));
 
     }
-    private void OnCollisionEnter(Collision collision) {
-        Debug.Log("碰撞检测.");
+    // private void OnCollisionEnter(Collision collision) {
+    //     if (collision.gameObject.tag == "food")
+    //     {
+    //         Destroy(collision.gameObject);
+    //     }
+    // }
+    private void OnTriggerEnter(Collider other) {
+        if (other.gameObject.tag == "food")
+        {
+            score ++;
+            scoreText.text = "当前分数："+score;
+            Destroy(other.gameObject);
+            if (score>=7)
+            {
+                winText.SetActive(true);
+            }
+        }
     }
-    
 }
